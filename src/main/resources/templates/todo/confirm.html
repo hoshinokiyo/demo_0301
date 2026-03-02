@@ -11,19 +11,25 @@
 <main class="container py-4">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
-            <h1 class="h4 mb-3">Confirm ToDo</h1>
+            <h1 class="h4 mb-3">登録内容の確認</h1>
 
-            <div class="card shadow-sm mb-3">
-                <div class="card-header">Registration Detail</div>
-                <div class="card-body">
-                    <p class="mb-0"><span class="fw-semibold">Title:</span> <span th:text="${title}">Sample Task</span></p>
+            <form th:action="@{/todo/complete}" method="post">
+                <div class="card shadow-sm mb-3">
+                    <div class="card-header">確認内容</div>
+                    <div class="card-body">
+                        <div class="mb-0">
+                            <label class="form-label fw-semibold">タイトル</label>
+                            <input type="text" class="form-control" th:value="${title}" readonly>
+                            <input type="hidden" name="title" th:value="${title}">
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="d-flex gap-2">
-                <a th:href="@{/todo/complete}" class="btn btn-primary">Register</a>
-                <a th:href="@{/todo/new}" class="btn btn-outline-secondary">Back</a>
-            </div>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-outline-secondary" onclick="history.back()">戻る</button>
+                    <button type="submit" class="btn btn-primary">登録</button>
+                </div>
+            </form>
         </div>
     </div>
 </main>
