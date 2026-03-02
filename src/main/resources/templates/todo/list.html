@@ -39,7 +39,7 @@
                     <th scope="col" style="width: 90px;">ID</th>
                     <th scope="col">タイトル</th>
                     <th scope="col" style="width: 140px;">完了状態</th>
-                    <th scope="col" style="width: 120px;">操作</th>
+                    <th scope="col" style="width: 190px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,7 +47,8 @@
                     <td th:text="${todo.id}">1</td>
                     <td th:text="${todo.title}">サンプルタスク</td>
                     <td th:text="${todo.completed} ? '完了' : '未完了'">未完了</td>
-                    <td>
+                    <td class="d-flex gap-2">
+                        <a th:href="@{/todo/{id}/edit(id=${todo.id})}" class="btn btn-outline-primary btn-sm">編集</a>
                         <form th:action="@{/todo/{id}/delete(id=${todo.id})}"
                               method="post"
                               class="d-inline"

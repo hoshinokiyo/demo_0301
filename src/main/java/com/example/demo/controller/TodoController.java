@@ -36,6 +36,17 @@ public class TodoController {
         return "todo/form";
     }
 
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        Todo todo = todoService.findById(id);
+        if (todo == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "指定されたToDoが見つかりません");
+            return "redirect:/todo";
+        }
+        model.addAttribute("todo", todo);
+        return "todo/edit";
+    }
+
     @PostMapping("/confirm")
     public String confirm(@RequestParam("title") String title, Model model) {
         model.addAttribute("title", title);
