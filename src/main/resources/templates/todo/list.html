@@ -32,25 +32,36 @@
 
     <div class="card soft-card shadow-sm border-0 mb-3">
         <div class="card-body p-4">
-            <h2 class="h5 mb-2">いまの人</h2>
-            <p class="text-muted small mb-3">今の操作をする人をえらんでね</p>
-            <form method="get" action="/todo" class="assignee-selector assignee-picker">
+            <h2 class="h5 mb-2">担当者をえらんで新規へ</h2>
+            <p class="text-muted small mb-3">えらんだらすぐ次の画面に進むよ</p>
+            <form method="get" action="/todo/new" id="assigneeForm" class="assignee-selector assignee-picker">
                 <label class="assignee-option assignee-father">
-                    <input type="radio" name="currentUser" value="FATHER" th:checked="${currentUser == 'FATHER'}" onchange="this.form.submit()">
+                    <input type="radio" name="assignee" value="父" onchange="document.getElementById('assigneeForm').submit()">
                     <span>父</span>
                 </label>
                 <label class="assignee-option assignee-mother">
-                    <input type="radio" name="currentUser" value="MOTHER" th:checked="${currentUser == 'MOTHER'}" onchange="this.form.submit()">
+                    <input type="radio" name="assignee" value="母" onchange="document.getElementById('assigneeForm').submit()">
                     <span>母</span>
                 </label>
                 <label class="assignee-option assignee-me">
-                    <input type="radio" name="currentUser" value="ME" th:checked="${currentUser == 'ME'}" onchange="this.form.submit()">
+                    <input type="radio" name="assignee" value="僕" onchange="document.getElementById('assigneeForm').submit()">
                     <span>僕</span>
                 </label>
                 <label class="assignee-option assignee-sister">
-                    <input type="radio" name="currentUser" value="SISTER" th:checked="${currentUser == 'SISTER'}" onchange="this.form.submit()">
+                    <input type="radio" name="assignee" value="姉" onchange="document.getElementById('assigneeForm').submit()">
                     <span>姉</span>
                 </label>
+            </form>
+            <hr class="my-4">
+            <h3 class="h6 mb-2">いまの人（承認用）</h3>
+            <form method="get" action="/todo" class="d-flex gap-2 align-items-center">
+                <select class="form-select form-select-sm" style="max-width: 180px;" name="currentUser" onchange="this.form.submit()">
+                    <option value="FATHER" th:selected="${currentUser == 'FATHER'}">父</option>
+                    <option value="MOTHER" th:selected="${currentUser == 'MOTHER'}">母</option>
+                    <option value="ME" th:selected="${currentUser == 'ME'}">僕</option>
+                    <option value="SISTER" th:selected="${currentUser == 'SISTER'}">姉</option>
+                </select>
+                <span class="small text-muted">今の人: <span th:text="${currentUserLabel}">僕</span></span>
             </form>
         </div>
     </div>
