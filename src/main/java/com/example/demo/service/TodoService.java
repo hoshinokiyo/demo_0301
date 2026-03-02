@@ -26,6 +26,12 @@ public class TodoService {
         return todos;
     }
 
+    public List<Todo> findDeleteRequested() {
+        return findAll().stream()
+                .filter(t -> TodoStatus.DELETE_REQUESTED.code().equals(t.getStatus()))
+                .toList();
+    }
+
     public List<Todo> findHistory() {
         List<Todo> todos = todoMapper.findHistory();
         todos.forEach(this::normalizeFields);

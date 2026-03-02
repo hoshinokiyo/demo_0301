@@ -87,3 +87,31 @@ body {
 .family-todo-table tbody tr.row-sister > td {
     background-color: rgba(255, 127, 191, 0.32) !important;
 }
+
+.eye-toggle-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+}
+
+.eye-svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: none;
+    stroke: #5f6b7a;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.eye-svg .eye-pupil {
+    fill: #5f6b7a;
+    stroke: none;
+}
+
+.eye-svg .lash {
+    stroke: #ff7fbf;
+    stroke-width: 1.6;
+}
