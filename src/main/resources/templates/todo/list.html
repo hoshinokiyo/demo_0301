@@ -94,20 +94,20 @@
                                               (${code == 'SISTER'} ? ' assignee-sister' : '')))"
                               th:text="${todo.assigneeLabel}">父</span>
                     </td>
-                    <td th:text="${todo.completed} ? '完了' : '未完了'">未完了</td>
+                    <td th:text="${todo.completed} ? '完了' : 'まだです'">まだです</td>
                     <td class="d-flex gap-2">
                         <form th:action="@{/todo/{id}/toggle(id=${todo.id})}" method="post" class="d-inline">
                             <button type="submit"
                                     class="btn btn-sm"
                                     th:classappend="${todo.completed} ? ' btn-outline-secondary' : ' btn-success'"
-                                    th:text="${todo.completed} ? '未完了に戻す' : '完了にする'">完了にする</button>
+                                    th:text="${todo.completed} ? 'まだですに戻す' : 'おわった'">おわった</button>
                         </form>
-                        <a th:href="@{/todo/{id}/edit(id=${todo.id})}" class="btn btn-outline-primary btn-sm">編集</a>
+                        <a th:href="@{/todo/{id}/edit(id=${todo.id})}" class="btn btn-outline-primary btn-sm">変える</a>
                         <form th:action="@{/todo/{id}/delete(id=${todo.id})}"
                               method="post"
                               class="d-inline"
                               onsubmit="return confirm('本当に削除しますか？');">
-                            <button type="submit" class="btn btn-danger btn-sm">削除</button>
+                            <button type="submit" class="btn btn-danger btn-sm">やめる</button>
                         </form>
                     </td>
                 </tr>

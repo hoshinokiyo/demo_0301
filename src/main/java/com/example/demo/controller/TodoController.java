@@ -32,7 +32,7 @@ public class TodoController {
 
     @ModelAttribute("categories")
     public List<String> categories() {
-        return List.of("家事", "買い物", "学校", "仕事", "その他");
+        return List.of("家事", "買い物", "学校", "仕事", "約束", "その他");
     }
 
     @GetMapping({"", "/"})
