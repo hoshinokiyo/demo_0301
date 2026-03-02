@@ -11,12 +11,20 @@
 <main class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3 mb-0">ToDo一覧</h1>
-        <a th:href="@{/todo/new}" class="btn btn-primary">新規登録</a>
+        <a th:href="@{/todo/new}" class="btn btn-primary">新規作成</a>
     </div>
 
-    <div class="card shadow-sm">
+    <div th:if="${#lists.isEmpty(todos)}" class="card shadow-sm border-0">
+        <div class="card-body text-center py-5">
+            <h2 class="h5 mb-3">ToDoがまだ登録されていません</h2>
+            <p class="text-muted mb-4">最初のToDoを作成して、タスク管理を始めましょう。</p>
+            <a th:href="@{/todo/new}" class="btn btn-primary">新規作成</a>
+        </div>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(todos)}" class="card shadow-sm">
         <div class="card-body p-0">
-            <table class="table table-striped table-hover mb-0">
+            <table class="table table-striped table-hover align-middle mb-0">
                 <thead class="table-dark">
                 <tr>
                     <th scope="col" style="width: 90px;">ID</th>
@@ -27,11 +35,12 @@
                 <tbody>
                 <tr th:each="todo : ${todos}">
                     <td th:text="${todo.id}">1</td>
-                    <td th:text="${todo.title}">サンプルToDo</td>
-                    <td th:text="${todo.completed} ? '完了' : '未完了'">未完了</td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(todos)}">
-                    <td colspan="3" class="text-center text-muted py-4">ToDoはまだありません。</td>
+                    <td th:text="${todo.title}">サンプルタスク</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${todo.completed} ? ' text-bg-success' : ' text-bg-secondary'"
+                              th:text="${todo.completed} ? '完了' : '未完了'">未完了</span>
+                    </td>
                 </tr>
                 </tbody>
             </table>
