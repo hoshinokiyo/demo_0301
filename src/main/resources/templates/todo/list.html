@@ -15,11 +15,11 @@
     </div>
 
     <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show js-auto-dismiss" role="alert">
-        <span th:text="${successMessage}">ToDoを削除しました</span>
+        <span th:text="${successMessage}">処理が完了しました</span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show js-auto-dismiss" role="alert">
-        <span th:text="${errorMessage}">削除に失敗しました</span>
+        <span th:text="${errorMessage}">処理に失敗しました</span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
@@ -39,15 +39,24 @@
                     <th scope="col" style="width: 90px;">ID</th>
                     <th scope="col">タイトル</th>
                     <th scope="col" style="width: 140px;">完了状態</th>
-                    <th scope="col" style="width: 190px;">操作</th>
+                    <th scope="col" style="width: 260px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="todo : ${todos}">
                     <td th:text="${todo.id}">1</td>
-                    <td th:text="${todo.title}">サンプルタスク</td>
+                    <td>
+                        <span th:text="${todo.title}"
+                              th:style="${todo.completed} ? 'text-decoration: line-through;' : ''">サンプルタスク</span>
+                    </td>
                     <td th:text="${todo.completed} ? '完了' : '未完了'">未完了</td>
                     <td class="d-flex gap-2">
+                        <form th:action="@{/todo/{id}/toggle(id=${todo.id})}" method="post" class="d-inline">
+                            <button type="submit"
+                                    class="btn btn-sm"
+                                    th:classappend="${todo.completed} ? ' btn-outline-secondary' : ' btn-success'"
+                                    th:text="${todo.completed} ? '未完了に戻す' : '完了にする'">完了にする</button>
+                        </form>
                         <a th:href="@{/todo/{id}/edit(id=${todo.id})}" class="btn btn-outline-primary btn-sm">編集</a>
                         <form th:action="@{/todo/{id}/delete(id=${todo.id})}"
                               method="post"
