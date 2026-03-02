@@ -71,3 +71,19 @@ body {
 .assignee-picker label.assignee-sister {
     background-color: #ff7fbf !important;
 }
+
+.family-todo-table tbody tr.row-father > td {
+    background-color: rgba(127, 127, 255, 0.32) !important;
+}
+
+.family-todo-table tbody tr.row-mother > td {
+    background-color: rgba(255, 127, 127, 0.32) !important;
+}
+
+.family-todo-table tbody tr.row-me > td {
+    background-color: rgba(255, 255, 127, 0.36) !important;
+}
+
+.family-todo-table tbody tr.row-sister > td {
+    background-color: rgba(255, 127, 191, 0.32) !important;
+}

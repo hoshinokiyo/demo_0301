@@ -60,20 +60,25 @@
 
     <div th:unless="${#lists.isEmpty(todos)}" class="card soft-card soft-table shadow-sm border-0">
         <div class="card-body p-0">
-            <table class="table table-striped table-hover align-middle mb-0">
+            <table class="table table-hover align-middle mb-0 family-todo-table">
                 <thead class="table-dark">
                 <tr>
                     <th scope="col" style="width: 80px;">ID</th>
                     <th scope="col">タイトル</th>
                     <th scope="col" style="width: 140px;">期限</th>
                     <th scope="col" style="width: 120px;">カテゴリ</th>
-                    <th scope="col" style="width: 180px;">担当者</th>
+                    <th scope="col" style="width: 180px;">かぞく</th>
                     <th scope="col" style="width: 110px;">完了状態</th>
                     <th scope="col" style="width: 280px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="todo : ${todos}">
+                <tr th:each="todo : ${todos}"
+                    th:with="code=${todo.assigneeCode}"
+                    th:classappend="${code == 'FATHER'} ? ' row-father' :
+                                    (${code == 'MOTHER'} ? ' row-mother' :
+                                    (${code == 'ME'} ? ' row-me' :
+                                    (${code == 'SISTER'} ? ' row-sister' : '')))">
                     <td th:text="${todo.id}">1</td>
                     <td>
                         <span th:text="${todo.title}"
@@ -81,7 +86,7 @@
                     </td>
                     <td th:text="${todo.deadline}">2026-03-02</td>
                     <td th:text="${todo.category}">家事</td>
-                    <td th:with="code=${todo.assigneeCode}">
+                    <td>
                         <span class="assignee-chip"
                               th:classappend="${code == 'FATHER'} ? ' assignee-father' :
                                               (${code == 'MOTHER'} ? ' assignee-mother' :
