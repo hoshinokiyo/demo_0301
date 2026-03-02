@@ -65,6 +65,8 @@
                 <tr>
                     <th scope="col" style="width: 80px;">ID</th>
                     <th scope="col">タイトル</th>
+                    <th scope="col" style="width: 140px;">期限</th>
+                    <th scope="col" style="width: 120px;">カテゴリ</th>
                     <th scope="col" style="width: 180px;">担当者</th>
                     <th scope="col" style="width: 110px;">完了状態</th>
                     <th scope="col" style="width: 280px;">操作</th>
@@ -77,6 +79,8 @@
                         <span th:text="${todo.title}"
                               th:style="${todo.completed} ? 'text-decoration: line-through;' : ''">サンプルタスク</span>
                     </td>
+                    <td th:text="${todo.deadline}">2026-03-02</td>
+                    <td th:text="${todo.category}">家事</td>
                     <td th:with="code=${todo.assigneeCode}">
                         <span class="assignee-chip"
                               th:classappend="${code == 'FATHER'} ? ' assignee-father' :

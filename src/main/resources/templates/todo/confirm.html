@@ -16,22 +16,42 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-9 col-lg-7">
             <h1 class="h4 mb-3">登録内容の確認</h1>
-            <form th:action="@{/todo/complete}" method="post">
+
+            <form th:action="@{/todo/complete}" method="post" th:object="${todoForm}">
                 <div class="card soft-card shadow-sm border-0 mb-3">
                     <div class="card-header">確認内容</div>
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label fw-semibold">タイトル</label>
-                            <input type="text" class="form-control" th:value="${title}" readonly>
-                            <input type="hidden" name="title" th:value="${title}">
+                            <input type="text" class="form-control" th:value="*{title}" readonly>
+                            <input type="hidden" th:field="*{title}">
                         </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">期限</label>
+                            <input type="text" class="form-control" th:value="*{deadline}" readonly>
+                            <input type="hidden" th:field="*{deadline}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">カテゴリ</label>
+                            <input type="text" class="form-control" th:value="*{category}" readonly>
+                            <input type="hidden" th:field="*{category}">
+                        </div>
+
                         <div>
-                            <label class="form-label fw-semibold">担当者</label>
-                            <input type="text" class="form-control" th:value="${assigneeLabel}" readonly>
-                            <input type="hidden" name="assignee" th:value="${assignee}">
+                            <label class="form-label fw-semibold d-block mb-2">担当者</label>
+                            <span class="assignee-chip"
+                                  th:classappend="${todoForm.assignee == 'FATHER'} ? ' assignee-father' :
+                                                  (${todoForm.assignee == 'MOTHER'} ? ' assignee-mother' :
+                                                  (${todoForm.assignee == 'ME'} ? ' assignee-me' :
+                                                  (${todoForm.assignee == 'SISTER'} ? ' assignee-sister' : '')))"
+                                  th:text="${assigneeLabel}">父</span>
+                            <input type="hidden" th:field="*{assignee}">
                         </div>
                     </div>
                 </div>
+
                 <div class="d-flex gap-2">
                     <button type="button" class="btn btn-outline-secondary" onclick="history.back()">戻る</button>
                     <button type="submit" class="btn btn-primary">登録</button>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.form.TodoForm;
 import com.example.demo.mapper.TodoMapper;
 import com.example.demo.model.FamilyAssignee;
 import com.example.demo.model.Todo;
@@ -31,15 +32,23 @@ public class TodoService {
         return todo;
     }
 
-    public void create(String title, String assigneeInput) {
-        FamilyAssignee assignee = FamilyAssignee.fromInput(assigneeInput)
+    public void create(TodoForm form) {
+        FamilyAssignee assignee = FamilyAssignee.fromInput(form.getAssignee())
                 .orElseThrow(() -> new IllegalArgumentException("Assignee is required"));
-        if (title == null || title.isBlank()) {
+        if (form.getTitle() == null || form.getTitle().isBlank()) {
             throw new IllegalArgumentException("Title is required");
         }
+        if (form.getCategory() == null || form.getCategory().isBlank()) {
+            throw new IllegalArgumentException("Category is required");
+        }
+        if (form.getDeadline() == null) {
+            throw new IllegalArgumentException("Deadline is required");
+        }
         Todo todo = new Todo();
-        todo.setTitle(title.trim());
+        todo.setTitle(form.getTitle().trim());
         todo.setAssignee(assignee.code());
+        todo.setCategory(form.getCategory().trim());
+        todo.setDeadline(form.getDeadline());
         todo.setCompleted(false);
         todoMapper.insert(todo);
     }

@@ -5,27 +5,29 @@
 <mapper namespace="com.example.demo.mapper.TodoMapper">
 
     <select id="findAll" resultType="com.example.demo.model.Todo">
-        SELECT id, title, assignee, completed
+        SELECT id, title, assignee, category, deadline, completed
         FROM todos
         ORDER BY id DESC
     </select>
 
     <select id="findById" parameterType="long" resultType="com.example.demo.model.Todo">
-        SELECT id, title, assignee, completed
+        SELECT id, title, assignee, category, deadline, completed
         FROM todos
         WHERE id = #{id}
     </select>
 
     <insert id="insert" parameterType="com.example.demo.model.Todo"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO todos (title, assignee, completed)
-        VALUES (#{title}, #{assignee}, #{completed})
+        INSERT INTO todos (title, assignee, category, deadline, completed)
+        VALUES (#{title}, #{assignee}, #{category}, #{deadline}, #{completed})
     </insert>
 
     <update id="update" parameterType="com.example.demo.model.Todo">
         UPDATE todos
         SET title = #{title},
             assignee = #{assignee},
+            category = #{category},
+            deadline = #{deadline},
             completed = #{completed}
         WHERE id = #{id}
     </update>
