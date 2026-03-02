@@ -5,21 +5,22 @@
 <mapper namespace="com.example.demo.mapper.TodoMapper">
 
     <select id="findAll" resultType="com.example.demo.model.Todo">
-        SELECT id, title, assignee, category, deadline, completed
+        SELECT id, title, assignee, category, deadline, status, deleted_at, completed
         FROM todos
+        WHERE status &lt;&gt; 'DELETED'
         ORDER BY id DESC
     </select>
 
     <select id="findById" parameterType="long" resultType="com.example.demo.model.Todo">
-        SELECT id, title, assignee, category, deadline, completed
+        SELECT id, title, assignee, category, deadline, status, deleted_at, completed
         FROM todos
         WHERE id = #{id}
     </select>
 
     <insert id="insert" parameterType="com.example.demo.model.Todo"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO todos (title, assignee, category, deadline, completed)
-        VALUES (#{title}, #{assignee}, #{category}, #{deadline}, #{completed})
+        INSERT INTO todos (title, assignee, category, deadline, status, deleted_at, completed)
+        VALUES (#{title}, #{assignee}, #{category}, #{deadline}, #{status}, #{deletedAt}, #{completed})
     </insert>
 
     <update id="update" parameterType="com.example.demo.model.Todo">
@@ -28,9 +29,31 @@
             assignee = #{assignee},
             category = #{category},
             deadline = #{deadline},
+            status = #{status},
+            deleted_at = #{deletedAt},
             completed = #{completed}
         WHERE id = #{id}
     </update>
+
+    <update id="requestDelete" parameterType="long">
+        UPDATE todos
+        SET status = 'DELETE_REQUESTED'
+        WHERE id = #{id} AND status = 'ACTIVE'
+    </update>
+
+    <update id="approveDelete">
+        UPDATE todos
+        SET status = 'DELETED',
+            deleted_at = #{deletedAt}
+        WHERE id = #{id} AND status = 'DELETE_REQUESTED'
+    </update>
+
+    <select id="findHistory" resultType="com.example.demo.model.Todo">
+        SELECT id, title, assignee, category, deadline, status, deleted_at, completed
+        FROM todos
+        WHERE status = 'DELETED'
+        ORDER BY deleted_at DESC, id DESC
+    </select>
 
     <delete id="deleteById" parameterType="long">
         DELETE FROM todos

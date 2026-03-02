@@ -15,7 +15,10 @@
 <main class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3 mb-0">家族Todo</h1>
-        <a th:href="@{/todo/new}" class="btn btn-primary">新規登録</a>
+        <div class="d-flex gap-2">
+            <a th:href="@{/todo/history}" class="btn btn-outline-secondary">履歴</a>
+            <a th:href="@{/todo/new}" class="btn btn-primary">新規登録</a>
+        </div>
     </div>
 
     <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show js-auto-dismiss" role="alert">
@@ -29,22 +32,23 @@
 
     <div class="card soft-card shadow-sm border-0 mb-3">
         <div class="card-body p-4">
-            <h2 class="h5 mb-3">担当者選択</h2>
-            <form method="get" action="/todo/new" class="assignee-selector assignee-picker">
-                <label class="assignee-option assignee-father" style="background-color:#7f7fff;">
-                    <input type="radio" name="assignee" value="FATHER" onchange="this.form.submit()">
+            <h2 class="h5 mb-2">いまの人</h2>
+            <p class="text-muted small mb-3">今の操作をする人をえらんでね</p>
+            <form method="get" action="/todo" class="assignee-selector assignee-picker">
+                <label class="assignee-option assignee-father">
+                    <input type="radio" name="currentUser" value="FATHER" th:checked="${currentUser == 'FATHER'}" onchange="this.form.submit()">
                     <span>父</span>
                 </label>
-                <label class="assignee-option assignee-mother" style="background-color:#ff7f7f;">
-                    <input type="radio" name="assignee" value="MOTHER" onchange="this.form.submit()">
+                <label class="assignee-option assignee-mother">
+                    <input type="radio" name="currentUser" value="MOTHER" th:checked="${currentUser == 'MOTHER'}" onchange="this.form.submit()">
                     <span>母</span>
                 </label>
-                <label class="assignee-option assignee-me" style="background-color:#ffff7f;">
-                    <input type="radio" name="assignee" value="ME" onchange="this.form.submit()">
+                <label class="assignee-option assignee-me">
+                    <input type="radio" name="currentUser" value="ME" th:checked="${currentUser == 'ME'}" onchange="this.form.submit()">
                     <span>僕</span>
                 </label>
-                <label class="assignee-option assignee-sister" style="background-color:#ff7fbf;">
-                    <input type="radio" name="assignee" value="SISTER" onchange="this.form.submit()">
+                <label class="assignee-option assignee-sister">
+                    <input type="radio" name="currentUser" value="SISTER" th:checked="${currentUser == 'SISTER'}" onchange="this.form.submit()">
                     <span>姉</span>
                 </label>
             </form>
@@ -53,8 +57,8 @@
 
     <div th:if="${#lists.isEmpty(todos)}" class="card soft-card shadow-sm border-0">
         <div class="card-body text-center py-5">
-            <h2 class="h5 mb-3">ToDoがまだ登録されていません</h2>
-            <p class="text-muted mb-4">上の担当者を選んで、新しいToDoを追加してください。</p>
+            <h2 class="h5 mb-3">ToDoがまだないよ</h2>
+            <p class="text-muted mb-4">新規登録から作ってみよう</p>
         </div>
     </div>
 
@@ -63,26 +67,24 @@
             <table class="table table-hover align-middle mb-0 family-todo-table">
                 <thead class="table-dark">
                 <tr>
-                    <th scope="col" style="width: 80px;">ID</th>
-                    <th scope="col">タイトル</th>
-                    <th scope="col" style="width: 140px;">期限</th>
-                    <th scope="col" style="width: 120px;">カテゴリ</th>
-                    <th scope="col" style="width: 180px;">かぞく</th>
-                    <th scope="col" style="width: 110px;">完了状態</th>
-                    <th scope="col" style="width: 280px;">操作</th>
+                    <th style="width: 70px;">ID</th>
+                    <th>タイトル</th>
+                    <th style="width: 130px;">期限</th>
+                    <th style="width: 110px;">カテゴリ</th>
+                    <th style="width: 120px;">かぞく</th>
+                    <th style="width: 120px;">状態</th>
+                    <th style="width: 330px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="todo : ${todos}"
-                    th:with="code=${todo.assigneeCode}"
+                <tr th:each="todo : ${todos}" th:with="code=${todo.assigneeCode}"
                     th:classappend="${code == 'FATHER'} ? ' row-father' :
                                     (${code == 'MOTHER'} ? ' row-mother' :
                                     (${code == 'ME'} ? ' row-me' :
                                     (${code == 'SISTER'} ? ' row-sister' : '')))">
                     <td th:text="${todo.id}">1</td>
                     <td>
-                        <span th:text="${todo.title}"
-                              th:style="${todo.completed} ? 'text-decoration: line-through;' : ''">サンプルタスク</span>
+                        <span th:text="${todo.title}" th:style="${todo.completed} ? 'text-decoration: line-through;' : ''">タイトル</span>
                     </td>
                     <td th:text="${todo.deadline}">2026-03-02</td>
                     <td th:text="${todo.category}">家事</td>
@@ -94,21 +96,28 @@
                                               (${code == 'SISTER'} ? ' assignee-sister' : '')))"
                               th:text="${todo.assigneeLabel}">父</span>
                     </td>
-                    <td th:text="${todo.completed} ? '完了' : 'まだです'">まだです</td>
-                    <td class="d-flex gap-2">
-                        <form th:action="@{/todo/{id}/toggle(id=${todo.id})}" method="post" class="d-inline">
-                            <button type="submit"
-                                    class="btn btn-sm"
-                                    th:classappend="${todo.completed} ? ' btn-outline-secondary' : ' btn-success'"
-                                    th:text="${todo.completed} ? 'まだですに戻す' : 'おわった'">おわった</button>
-                        </form>
-                        <a th:href="@{/todo/{id}/edit(id=${todo.id})}" class="btn btn-outline-primary btn-sm">変える</a>
-                        <form th:action="@{/todo/{id}/delete(id=${todo.id})}"
-                              method="post"
-                              class="d-inline"
-                              onsubmit="return confirm('本当に削除しますか？');">
-                            <button type="submit" class="btn btn-danger btn-sm">やめる</button>
-                        </form>
+                    <td>
+                        <span th:if="${todo.statusCode == statusDeleteRequested}" class="badge text-bg-warning">おねがい中</span>
+                        <span th:unless="${todo.statusCode == statusDeleteRequested}" th:text="${todo.completed} ? '完了' : 'まだです'">まだです</span>
+                    </td>
+                    <td>
+                        <div class="d-flex gap-2" th:if="${todo.statusCode == statusActive}">
+                            <form th:action="@{/todo/{id}/toggle(id=${todo.id})}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm"
+                                        th:classappend="${todo.completed} ? ' btn-outline-secondary' : ' btn-success'"
+                                        th:text="${todo.completed} ? 'まだですに戻す' : 'おわった'">おわった</button>
+                            </form>
+                            <a th:href="@{/todo/{id}/edit(id=${todo.id})}" class="btn btn-outline-primary btn-sm">変える</a>
+                            <form th:action="@{/todo/{id}/request-delete(id=${todo.id})}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm">やめる</button>
+                            </form>
+                        </div>
+                        <div th:if="${todo.statusCode == statusDeleteRequested}">
+                            <p class="small mb-2">ママがOKしたら消えるよ</p>
+                            <form th:if="${isMother}" th:action="@{/todo/{id}/approve-delete(id=${todo.id})}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-warning btn-sm">OK（けしていいよ）</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
