@@ -1,0 +1,57 @@
+:root {
+    --father: #7f7fff;
+    --mother: #ff7f7f;
+    --me: #ffff7f;
+    --sister: #ff7fbf;
+}
+
+body {
+    font-family: "M PLUS Rounded 1c", sans-serif;
+}
+
+.soft-card {
+    border-radius: 20px;
+}
+
+.soft-table {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.assignee-chip {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+.assignee-father {
+    background-color: var(--father);
+}
+
+.assignee-mother {
+    background-color: var(--mother);
+}
+
+.assignee-me {
+    background-color: var(--me);
+}
+
+.assignee-sister {
+    background-color: var(--sister);
+}
+
+.assignee-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.assignee-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-weight: 700;
+}

@@ -24,9 +24,13 @@ public class TodoService {
         return todoMapper.findById(id);
     }
 
-    public void create(String title) {
+    public void create(String title, String assignee) {
+        if (assignee == null || assignee.isBlank()) {
+            throw new IllegalArgumentException("担当者は必須です");
+        }
         Todo todo = new Todo();
         todo.setTitle(title);
+        todo.setAssignee(assignee);
         todo.setCompleted(false);
         todoMapper.insert(todo);
     }
