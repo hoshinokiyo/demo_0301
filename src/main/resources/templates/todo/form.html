@@ -13,15 +13,15 @@
         <div class="col-12 col-md-8 col-lg-6">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h1 class="h4 mb-4">Create ToDo</h1>
+                    <h1 class="h4 mb-4">ToDo新規登録</h1>
                     <form th:action="@{/todo/confirm}" method="post">
                         <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <input id="title" name="title" type="text" class="form-control" placeholder="Enter todo title" required>
+                            <label for="title" class="form-label">タイトル</label>
+                            <input id="title" name="title" type="text" class="form-control" placeholder="ToDoのタイトルを入力" required>
                         </div>
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">Go to Confirm</button>
-                            <a th:href="@{/todo}" class="btn btn-outline-secondary">Back</a>
+                            <button type="submit" class="btn btn-primary">確認画面へ</button>
+                            <a th:href="@{/todo}" class="btn btn-outline-secondary">戻る</a>
                         </div>
                     </form>
                 </div>
