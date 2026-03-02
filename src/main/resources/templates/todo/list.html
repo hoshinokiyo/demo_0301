@@ -18,30 +18,6 @@
         <a th:href="@{/todo/new}" class="btn btn-primary">新規登録</a>
     </div>
 
-    <div class="card soft-card shadow-sm border-0 mb-3">
-        <div class="card-body p-4">
-            <h2 class="h5 mb-3">担当者選択</h2>
-            <form method="get" action="/todo/new" class="assignee-selector">
-                <label class="assignee-option assignee-father">
-                    <input type="radio" name="assignee" value="父" onchange="this.form.submit()">
-                    <span>父</span>
-                </label>
-                <label class="assignee-option assignee-mother">
-                    <input type="radio" name="assignee" value="母" onchange="this.form.submit()">
-                    <span>母</span>
-                </label>
-                <label class="assignee-option assignee-me">
-                    <input type="radio" name="assignee" value="僕" onchange="this.form.submit()">
-                    <span>僕</span>
-                </label>
-                <label class="assignee-option assignee-sister">
-                    <input type="radio" name="assignee" value="姉" onchange="this.form.submit()">
-                    <span>姉</span>
-                </label>
-            </form>
-        </div>
-    </div>
-
     <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show js-auto-dismiss" role="alert">
         <span th:text="${successMessage}">処理が完了しました</span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -49,6 +25,30 @@
     <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show js-auto-dismiss" role="alert">
         <span th:text="${errorMessage}">処理に失敗しました</span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="card soft-card shadow-sm border-0 mb-3">
+        <div class="card-body p-4">
+            <h2 class="h5 mb-3">担当者選択</h2>
+            <form method="get" action="/todo/new" class="assignee-selector assignee-picker">
+                <label class="assignee-option assignee-father" style="background-color:#7f7fff;">
+                    <input type="radio" name="assignee" value="FATHER" onchange="this.form.submit()">
+                    <span>父</span>
+                </label>
+                <label class="assignee-option assignee-mother" style="background-color:#ff7f7f;">
+                    <input type="radio" name="assignee" value="MOTHER" onchange="this.form.submit()">
+                    <span>母</span>
+                </label>
+                <label class="assignee-option assignee-me" style="background-color:#ffff7f;">
+                    <input type="radio" name="assignee" value="ME" onchange="this.form.submit()">
+                    <span>僕</span>
+                </label>
+                <label class="assignee-option assignee-sister" style="background-color:#ff7fbf;">
+                    <input type="radio" name="assignee" value="SISTER" onchange="this.form.submit()">
+                    <span>姉</span>
+                </label>
+            </form>
+        </div>
     </div>
 
     <div th:if="${#lists.isEmpty(todos)}" class="card soft-card shadow-sm border-0">
@@ -65,7 +65,7 @@
                 <tr>
                     <th scope="col" style="width: 80px;">ID</th>
                     <th scope="col">タイトル</th>
-                    <th scope="col" style="width: 120px;">担当者</th>
+                    <th scope="col" style="width: 180px;">担当者</th>
                     <th scope="col" style="width: 110px;">完了状態</th>
                     <th scope="col" style="width: 280px;">操作</th>
                 </tr>
@@ -77,13 +77,13 @@
                         <span th:text="${todo.title}"
                               th:style="${todo.completed} ? 'text-decoration: line-through;' : ''">サンプルタスク</span>
                     </td>
-                    <td>
+                    <td th:with="code=${todo.assigneeCode}">
                         <span class="assignee-chip"
-                              th:classappend="${todo.assignee == '父'} ? ' assignee-father' :
-                                              (${todo.assignee == '母'} ? ' assignee-mother' :
-                                              (${todo.assignee == '僕'} ? ' assignee-me' :
-                                              ((todo.assignee == '姉' or todo.assignee == 'お姉ちゃん') ? ' assignee-sister' : '')))"
-                              th:text="${todo.assignee}">父</span>
+                              th:classappend="${code == 'FATHER'} ? ' assignee-father' :
+                                              (${code == 'MOTHER'} ? ' assignee-mother' :
+                                              (${code == 'ME'} ? ' assignee-me' :
+                                              (${code == 'SISTER'} ? ' assignee-sister' : '')))"
+                              th:text="${todo.assigneeLabel}">父</span>
                     </td>
                     <td th:text="${todo.completed} ? '完了' : '未完了'">未完了</td>
                     <td class="d-flex gap-2">

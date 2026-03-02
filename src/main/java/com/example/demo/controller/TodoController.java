@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.model.FamilyAssignee;
 import com.example.demo.model.Todo;
 import com.example.demo.service.TodoService;
 
@@ -33,7 +34,7 @@ public class TodoController {
 
     @GetMapping("/new")
     public String showNewForm(@RequestParam(value = "assignee", required = false) String assignee, Model model) {
-        model.addAttribute("assignee", assignee);
+        FamilyAssignee.fromInput(assignee).ifPresent(v -> model.addAttribute("assignee", v.code()));
         return "todo/new";
     }
 
@@ -52,13 +53,15 @@ public class TodoController {
     public String confirm(@RequestParam("title") String title,
                           @RequestParam(value = "assignee", required = false) String assignee,
                           Model model) {
-        if (assignee == null || assignee.isBlank()) {
+        var normalized = FamilyAssignee.fromInput(assignee);
+        if (normalized.isEmpty()) {
             model.addAttribute("title", title);
             model.addAttribute("errorMessage", "担当者を選択してください");
             return "todo/new";
         }
         model.addAttribute("title", title);
-        model.addAttribute("assignee", assignee);
+        model.addAttribute("assignee", normalized.get().code());
+        model.addAttribute("assigneeLabel", normalized.get().label());
         return "todo/confirm";
     }
 
@@ -66,11 +69,12 @@ public class TodoController {
     public String complete(@RequestParam("title") String title,
                            @RequestParam(value = "assignee", required = false) String assignee,
                            RedirectAttributes redirectAttributes) {
-        if (assignee == null || assignee.isBlank()) {
+        var normalized = FamilyAssignee.fromInput(assignee);
+        if (normalized.isEmpty()) {
             redirectAttributes.addFlashAttribute("errorMessage", "担当者を選択してください");
             return "redirect:/todo/new";
         }
-        todoService.create(title, assignee);
+        todoService.create(title, normalized.get().code());
         redirectAttributes.addFlashAttribute("successMessage", "ToDoを登録しました");
         return "redirect:/todo";
     }

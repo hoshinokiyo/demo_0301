@@ -55,3 +55,19 @@ body {
     border-radius: 999px;
     font-weight: 700;
 }
+
+.assignee-picker label.assignee-father {
+    background-color: #7f7fff !important;
+}
+
+.assignee-picker label.assignee-mother {
+    background-color: #ff7f7f !important;
+}
+
+.assignee-picker label.assignee-me {
+    background-color: #ffff7f !important;
+}
+
+.assignee-picker label.assignee-sister {
+    background-color: #ff7fbf !important;
+}

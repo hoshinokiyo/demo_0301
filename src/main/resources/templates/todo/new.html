@@ -26,32 +26,27 @@
                     <form th:action="@{/todo/confirm}" method="post">
                         <div class="mb-3">
                             <label for="title" class="form-label fw-semibold">タイトル</label>
-                            <input id="title"
-                                   name="title"
-                                   type="text"
-                                   class="form-control form-control-lg"
-                                   placeholder="やることを入力"
-                                   th:value="${title}"
-                                   required>
+                            <input id="title" name="title" type="text" class="form-control form-control-lg"
+                                   placeholder="やることを入力" th:value="${title}" required>
                         </div>
 
                         <fieldset class="mb-4">
                             <legend class="col-form-label pt-0 fw-semibold">担当者（必須）</legend>
                             <div class="assignee-selector">
                                 <label class="assignee-option assignee-father">
-                                    <input type="radio" name="assignee" value="父" th:checked="${assignee == '父'}" required>
+                                    <input type="radio" name="assignee" value="FATHER" th:checked="${assignee == 'FATHER'}" required>
                                     <span>父</span>
                                 </label>
                                 <label class="assignee-option assignee-mother">
-                                    <input type="radio" name="assignee" value="母" th:checked="${assignee == '母'}">
+                                    <input type="radio" name="assignee" value="MOTHER" th:checked="${assignee == 'MOTHER'}">
                                     <span>母</span>
                                 </label>
                                 <label class="assignee-option assignee-me">
-                                    <input type="radio" name="assignee" value="僕" th:checked="${assignee == '僕'}">
+                                    <input type="radio" name="assignee" value="ME" th:checked="${assignee == 'ME'}">
                                     <span>僕</span>
                                 </label>
                                 <label class="assignee-option assignee-sister">
-                                    <input type="radio" name="assignee" value="姉" th:checked="${assignee == '姉'}">
+                                    <input type="radio" name="assignee" value="SISTER" th:checked="${assignee == 'SISTER'}">
                                     <span>姉</span>
                                 </label>
                             </div>
