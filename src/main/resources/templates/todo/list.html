@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo List</title>
+    <title>ToDo一覧</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body class="bg-light">
 <main class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="h3 mb-0">ToDo List</h1>
-        <a th:href="@{/todo/new}" class="btn btn-primary">New</a>
+        <h1 class="h3 mb-0">ToDo一覧</h1>
+        <a th:href="@{/todo/new}" class="btn btn-primary">新規登録</a>
     </div>
 
     <div class="card shadow-sm">
@@ -20,18 +20,18 @@
                 <thead class="table-dark">
                 <tr>
                     <th scope="col" style="width: 90px;">ID</th>
-                    <th scope="col">Title</th>
-                    <th scope="col" style="width: 140px;">Status</th>
+                    <th scope="col">タイトル</th>
+                    <th scope="col" style="width: 140px;">完了状態</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="todo : ${todos}">
                     <td th:text="${todo.id}">1</td>
-                    <td th:text="${todo.title}">Sample ToDo</td>
-                    <td th:text="${todo.status}">TODO</td>
+                    <td th:text="${todo.title}">サンプルToDo</td>
+                    <td th:text="${todo.completed} ? '完了' : '未完了'">未完了</td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(todos)}">
-                    <td colspan="3" class="text-center text-muted py-4">No todos found.</td>
+                    <td colspan="3" class="text-center text-muted py-4">ToDoはまだありません。</td>
                 </tr>
                 </tbody>
             </table>
