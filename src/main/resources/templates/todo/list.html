@@ -11,13 +11,13 @@
 <main class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3 mb-0">ToDo一覧</h1>
-        <a th:href="@{/todo/new}" class="btn btn-primary">新規作成</a>
+        <a th:href="@{/todo/new}" class="btn btn-primary">新規登録</a>
     </div>
 
     <div th:if="${#lists.isEmpty(todos)}" class="card shadow-sm border-0">
         <div class="card-body text-center py-5">
             <h2 class="h5 mb-3">ToDoがまだ登録されていません</h2>
-            <p class="text-muted mb-4">最初のToDoを作成して、タスク管理を始めましょう。</p>
+            <p class="text-muted mb-4">「新規登録」からタスクを追加してください。</p>
             <a th:href="@{/todo/new}" class="btn btn-primary">新規作成</a>
         </div>
     </div>
@@ -30,16 +30,18 @@
                     <th scope="col" style="width: 90px;">ID</th>
                     <th scope="col">タイトル</th>
                     <th scope="col" style="width: 140px;">完了状態</th>
+                    <th scope="col" style="width: 120px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="todo : ${todos}">
                     <td th:text="${todo.id}">1</td>
                     <td th:text="${todo.title}">サンプルタスク</td>
+                    <td th:text="${todo.completed} ? '完了' : '未完了'">未完了</td>
                     <td>
-                        <span class="badge"
-                              th:classappend="${todo.completed} ? ' text-bg-success' : ' text-bg-secondary'"
-                              th:text="${todo.completed} ? '完了' : '未完了'">未完了</span>
+                        <form th:action="@{/todo/{id}/delete(id=${todo.id})}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm">削除</button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
